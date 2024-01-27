@@ -141,12 +141,13 @@ namespace Movement
                 UIMovement.Move(east, View, speedX, UIMovement.Direction.Left);
             }
 
-            //Above 400 is considered offscreen
-            if (YPos > 360)
+            //Above 450 is considered offscreen
+            if (YPos > 450)
             {
                 resetYPositions();
             }
-            if (XPos > 500)
+            //Above 800 is considered offscreen
+            if (XPos > 800)
             { 
                 resetXPositions();
             }
