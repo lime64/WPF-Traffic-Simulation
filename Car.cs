@@ -27,10 +27,10 @@ namespace Movement
         /// <param name="name"></param>
         /// <param name="orientation"></param>
         /// <param name="fill"></param>
-        public Car(string name, Orientation orientation, Brush? fill = null)
+        public Car(string name, Orientation orientation, Brush? color = null)
         {
             this.Name = name;
-            this.Background = fill;
+            this.Background = color;
 
             if (orientation == Orientation.Horizontal)
             {

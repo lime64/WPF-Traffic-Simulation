@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,9 +23,10 @@ namespace Movement
         Car west = new Car("west", Car.Orientation.Horizontal, Brushes.Blue);
         
         //Speed to move UIElements at
-        int speedY = 2;
-        int speedX = 2;
+        //int speedY = 2;
+        //int speedX = 2;
 
+        
         //Tick, used for my lightArray
         static int Tick;
 
@@ -41,8 +43,8 @@ namespace Movement
         const double minXPos = 300;
         //Right after center
         const double maxXPos = 435;
-        
-        
+
+
         //DEBUGGER
         //Extra rendering to show on debugger
         private int frameCount = 0;
@@ -83,62 +85,71 @@ namespace Movement
             fpsTimer.Tick += UpdateFPS;
             fpsTimer.Start();
         }
-
+        
 
         //CAR
         private void carTimer_tick(object? sender, EventArgs e)
         {
-            speedY = 2;
-            speedX = 2;
+            //speedY = 2;
+            //speedX = 2;
+
+            //Speed to move UIElements at according to timer
+            int sValueNorth = (int)sliderNorth.Value;
+            int sValueSouth = (int)sliderEast.Value;
+            int sValueWest = (int)sliderWest.Value;
+            int sValueEast = (int)sliderEast.Value;
+
             double YPos = Canvas.GetTop(north);
             double XPos = Canvas.GetLeft(west);
 
             if (northLight.RedLight.Background == Brushes.White && !isYcrossing(north))
             {
-                UIMovement.Move(north, View, speedY, UIMovement.Direction.Down);
-                UIMovement.Move(south, View, speedY, UIMovement.Direction.Up);
+                UIMovement.Move(north, View, sValueNorth, UIMovement.Direction.Down);
+                UIMovement.Move(south, View, sValueSouth, UIMovement.Direction.Up);
             }
             else if (northLight.GreenLight.Background == Brushes.White)
             {
-                UIMovement.Move(north, View, speedY, UIMovement.Direction.Down);
-                UIMovement.Move(south, View, speedY, UIMovement.Direction.Up);
+                UIMovement.Move(north, View, sValueNorth, UIMovement.Direction.Down);
+                UIMovement.Move(south, View, sValueSouth, UIMovement.Direction.Up);
             }
             else if (northLight.OrangeLight.Background == Brushes.White && isYcrossing(north))
             {
-                speedY = 4;
-                UIMovement.Move(north, View, speedY, UIMovement.Direction.Down);
-                UIMovement.Move(south, View, speedY, UIMovement.Direction.Up);
+                //speedY = 4;
+                UIMovement.Move(north, View, sValueNorth, UIMovement.Direction.Down);
+                UIMovement.Move(south, View, sValueSouth, UIMovement.Direction.Up);
             }
             else if (northLight.OrangeLight.Background == Brushes.White && !isYcrossing(north))
             {
                 //this condition barely gets met but it's there to be safe and never have cars stuck in the middle
-                speedY = 1;
-                UIMovement.Move(north, View, speedY, UIMovement.Direction.Down);
-                UIMovement.Move(south, View, speedY, UIMovement.Direction.Up);
+                //speedY = 1;
+                UIMovement.Move(north, View, sValueNorth, UIMovement.Direction.Down);
+                UIMovement.Move(south, View, sValueSouth, UIMovement.Direction.Up);
             }
 
 
-            if (!isXcrossing(west))
+
+            if (westLight.RedLight.Background == Brushes.White && !isXcrossing(west))
             {
-                UIMovement.Move(west, View, speedX, UIMovement.Direction.Right);
-                UIMovement.Move(east, View, speedX, UIMovement.Direction.Left);
+                UIMovement.Move(west, View, sValueWest, UIMovement.Direction.Right);
+                UIMovement.Move(east, View, sValueEast, UIMovement.Direction.Left);
             }
             else if (westLight.GreenLight.Background == Brushes.White)
             {
-                UIMovement.Move(west, View, speedX, UIMovement.Direction.Right);
-                UIMovement.Move(east, View, speedX, UIMovement.Direction.Left);
+                UIMovement.Move(west, View, sValueWest, UIMovement.Direction.Right);
+                UIMovement.Move(east, View, sValueEast, UIMovement.Direction.Left);
             }
             else if (westLight.OrangeLight.Background == Brushes.White && isXcrossing(west))
             {
-                speedX = 4;
-                UIMovement.Move(west, View, speedX, UIMovement.Direction.Right);
-                UIMovement.Move(east, View, speedX, UIMovement.Direction.Left);
+                //speedY = 4;
+                UIMovement.Move(west, View, sValueWest, UIMovement.Direction.Right);
+                UIMovement.Move(east, View, sValueEast, UIMovement.Direction.Left);
             }
             else if (westLight.OrangeLight.Background == Brushes.White && !isXcrossing(west))
             {
-                speedX = 1;
-                UIMovement.Move(west, View, speedX, UIMovement.Direction.Right);
-                UIMovement.Move(east, View, speedX, UIMovement.Direction.Left);
+                //this condition barely gets met but it's there to be safe and never have cars stuck in the middle
+                //speedY = 1;
+                UIMovement.Move(west, View, sValueWest, UIMovement.Direction.Right);
+                UIMovement.Move(east, View, sValueEast, UIMovement.Direction.Left);
             }
 
             //Above 450 is considered offscreen
@@ -153,6 +164,27 @@ namespace Movement
             }
 
             UpdateDebugger();
+            setComboBoxColor(comboboxNorth, north);
+            setComboBoxColor(comboboxSouth, south);
+            setComboBoxColor(comboboxWest, west);
+            setComboBoxColor(comboboxEast, east);
+
+            //Geen tijd meer, quick fix
+            compareColors(north,south);
+            compareColors(north,west);
+            compareColors(north,east);
+
+            compareColors(south,north);
+            compareColors(south,west);
+            compareColors(south,east);
+
+            compareColors(west,north);
+            compareColors(west,south);
+            compareColors(west,east);
+
+            compareColors(east,north);
+            compareColors(east,south);
+            compareColors(east,west);
         }
 
 
@@ -226,31 +258,88 @@ namespace Movement
             UIMovement.SetElement(east, 185, 985);
         }
 
+        private void setComboBoxColor(ComboBox comboBox, Car car)
+        {
+            int comboboxIndex = comboBox.SelectedIndex;
+
+            switch (comboboxIndex)
+            {
+                case 0:
+                    car.Background = Brushes.AliceBlue;
+                    break;
+
+                case 1:
+                    car.Background = Brushes.PaleGoldenrod;
+                    break;
+
+                case 2:
+                    car.Background = Brushes.PapayaWhip;
+                    break;
+
+                case 3:
+                    car.Background = Brushes.Blue;
+                    break;
+
+                case 4:
+                    car.Background = Brushes.Green;
+                    break;
+
+                case 5:
+                    car.Background = Brushes.Red;
+                    break;
+            }
+        }
+
+        private void compareColors(Car c1, Car c2)
+        {
+            if(c1.Background == c2.Background)
+            {
+                MessageBox.Show("Car colors must be unique!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        //private bool IsColorUnique(Brush color, params Car[] cars)
+        //{
+        //    // Check if the selected color is unique among cars
+        //    return cars.All(car => car == null || car.Background != color);
+        //}
+
         //Shows some information in the Info TextBlock
         private void UpdateDebugger()
         {
-                Info.Text =
-               $"FPS: {fps:F2} \n" +
-               $"Northen car Y position = {Canvas.GetTop(north)}\n" +
-               $"Western car X position = {Canvas.GetLeft(west)}\n" +
-               $"Vertical Car Speed = {speedY}\n" +
-               $"Horizontal Car Speed = {speedX}\n" +
-               $"Are North-South crossing? = {isYcrossing(north)}\n" +
-               $"Are West-East crossing? = {isXcrossing(west)}\n" +
-               $"Current Tick of TLColor[,] StateArray = {Tick}\n";
+            Info.Text =
+           $"FPS: {fps:F2} \n" +
+           $"Northen car Y position = {Canvas.GetTop(north)}\n" +
+           $"Western car X position = {Canvas.GetLeft(west)}\n" +
+           $"Vertical Car Speed North - East = {(int)sliderNorth.Value} - {(int)sliderSouth.Value}\n" +
+           $"Horizontal Car Speed West - East = {(int)sliderWest.Value} - {(int)sliderEast.Value}\n" +
+           $"Are North-South crossing? = {isYcrossing(north)}\n" +
+           $"Are West-East crossing? = {isXcrossing(west)}\n" +
+           $"Current Tick of TLColor[,] StateArray = {Tick}\n\n" +
+           
+           $"NorthColor = \n" +
+           $"{comboboxNorth.SelectedItem}\n\n" +
+           $"SouthColor = \n" +
+           $"{comboboxSouth.SelectedItem}\n\n" +
+           $"WestColor = \n" +
+           $"{comboboxWest.SelectedItem}\n\n" +
+           $"EastColor = \n" +
+           $"{comboboxEast.SelectedItem}\n\n";
         }
 
         private void Debugbtn_Click(object sender, RoutedEventArgs e)
         {
-            Info.Visibility = (Info.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+            debugBox.Visibility = (debugBox.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+            modifierBox.Visibility = (modifierBox.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
 
-            if (Info.Visibility == Visibility.Visible)
+            if (debugBox.Visibility == Visibility.Visible)
             {
-                Debugbtn.Content = "Hide debug info";
+                Debugbtn.Content = "Hide debug";
             }
             else
             {
-                Debugbtn.Content = "Show debug info";
+                Debugbtn.Content = "Show debug";
             }
         }
     }

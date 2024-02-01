@@ -1,9 +1,17 @@
-﻿<Application x:Class="Movement.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Movement"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="Movement.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Movement"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Sources\textblockStyles.xaml" />
+                <ResourceDictionary Source="Sources\textblockStyles.xaml" />
+                <ResourceDictionary Source="Sources\sliderStyles.xaml" />
+                <ResourceDictionary Source="Sources\comboboxStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

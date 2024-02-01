@@ -13,28 +13,144 @@
     mc:Ignorable="d">
     <Grid Background="DarkGreen">
         <!--  Displays some informations  -->
-        <TextBlock
-            Name="Info"
-            Width="350"
-            Height="150"
+        <GroupBox
+            x:Name="debugBox"
+            Width="300"
+            Height="325"
             Margin="15"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            FontFamily="Agency FB"
-            FontSize="15"
-            FontWeight="Bold"
-            Foreground="White"
-            Text="~debug">
-            <TextBlock.Effect>
-                <DropShadowEffect
-                    BlurRadius="10"
-                    Direction="0"
-                    Opacity="1"
-                    ShadowDepth="0"
-                    Color="Black" />
-            </TextBlock.Effect>
-        </TextBlock>
+            Panel.ZIndex="3"
+            Background="Green"
+            Opacity="1"
+            Tag="~debug">
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold" Style="{StaticResource textboxStyle}">~debug</TextBlock>
+            </GroupBox.Header>
+            <TextBlock
+                Name="Info"
+                Width="auto"
+                Height="auto"
+                Margin="10"
+                Style="{StaticResource textboxStyle}"
+                Text="~debug" />
+        </GroupBox>
 
+        <GroupBox
+            x:Name="modifierBox"
+            Width="300"
+            Height="325"
+            Margin="15"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="3"
+            Background="Green"
+            Opacity="1"
+            Tag="modifiers">
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold" Style="{StaticResource textboxStyle}">modifiers</TextBlock>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel x:Name="sliderPanel" Grid.Column="0">
+                    <TextBlock
+                        Width="100"
+                        Height="15"
+                        Margin="5,15,0,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource textboxStyle}"
+                        Text="slider for North" />
+                    <Slider x:Name="sliderNorth" Style="{StaticResource sliderStyles}" />
+
+                    <TextBlock
+                        Width="100"
+                        Height="15"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource textboxStyle}"
+                        Text="slider for South" />
+                    <Slider x:Name="sliderSouth" Style="{StaticResource sliderStyles}" />
+
+                    <TextBlock
+                        Width="100"
+                        Height="15"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource textboxStyle}"
+                        Text="slider for West" />
+                    <Slider x:Name="sliderWest" Style="{StaticResource sliderStyles}" />
+
+                    <TextBlock
+                        Width="100"
+                        Height="15"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource textboxStyle}"
+                        Text="slider for East" />
+                    <Slider x:Name="sliderEast" Style="{StaticResource sliderStyles}" />
+                </StackPanel>
+
+                <StackPanel
+                    x:Name="comboboxPanel"
+                    Grid.Column="1"
+                    Width="125"
+                    Height="150"
+                    Margin="0,15,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+                    <ComboBox
+                        x:Name="comboboxNorth"
+                        Style="{StaticResource comboboxStyles}"
+                        Text="North">
+                        <ComboBoxItem Background="AliceBlue" Content="AliceBlue" />
+                        <ComboBoxItem Background="PaleGoldenrod" Content="PaleGoldenrod" />
+                        <ComboBoxItem Background="PapayaWhip" Content="PapayaWhip" />
+                        <ComboBoxItem Background="Blue" Content="Blue" />
+                        <ComboBoxItem Background="Green" Content="Green" />
+                        <ComboBoxItem Background="Red" Content="Red" />
+                    </ComboBox>
+                    <ComboBox
+                        x:Name="comboboxSouth"
+                        Style="{StaticResource comboboxStyles}"
+                        Text="South">
+                        <ComboBoxItem Background="AliceBlue" Content="AliceBlue" />
+                        <ComboBoxItem Background="PaleGoldenrod" Content="PaleGoldenrod" />
+                        <ComboBoxItem Background="PapayaWhip" Content="PapayaWhip" />
+                        <ComboBoxItem Background="Blue" Content="Blue" />
+                        <ComboBoxItem Background="Green" Content="Green" />
+                        <ComboBoxItem Background="Red" Content="Red" />
+                    </ComboBox>
+
+                    <ComboBox
+                        x:Name="comboboxWest"
+                        Style="{StaticResource comboboxStyles}"
+                        Text="West">
+                        <ComboBoxItem Background="AliceBlue" Content="AliceBlue" />
+                        <ComboBoxItem Background="PaleGoldenrod" Content="PaleGoldenrod" />
+                        <ComboBoxItem Background="PapayaWhip" Content="PapayaWhip" />
+                        <ComboBoxItem Background="Blue" Content="Blue" />
+                        <ComboBoxItem Background="Green" Content="Green" />
+                        <ComboBoxItem Background="Red" Content="Red" />
+                    </ComboBox>
+
+                    <ComboBox
+                        x:Name="comboboxEast"
+                        Style="{StaticResource comboboxStyles}"
+                        Text="East">
+                        <ComboBoxItem Background="AliceBlue" Content="AliceBlue" />
+                        <ComboBoxItem Background="PaleGoldenrod" Content="PaleGoldenrod" />
+                        <ComboBoxItem Background="PapayaWhip" Content="PapayaWhip" />
+                        <ComboBoxItem Background="Blue" Content="Blue" />
+                        <ComboBoxItem Background="Green" Content="Green" />
+                        <ComboBoxItem Background="Red" Content="Red" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
 
         <!--  View, all the logic runs on this canvas  -->
         <Canvas
@@ -52,7 +168,7 @@
                 BorderBrush="White"
                 BorderThickness="1"
                 Click="Debugbtn_Click"
-                Content="Hide Debug Info"
+                Content="Hide Debug"
                 FontFamily="Agency FB"
                 FontSize="15"
                 FontWeight="Bold"
