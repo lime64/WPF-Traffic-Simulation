@@ -1,6 +1,8 @@
 # Movement
 
 ⚠️ Not up to date.
+🐞 Contains bugs.
+⛔ Won't fix anytime soon.
 
 Contains:
   - styled usercontrols
